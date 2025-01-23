@@ -7,6 +7,7 @@ data class AnimeDetails(
     @SerializedName("data")
     val data: Details
 )
+
 data class Details(
     @SerializedName("aired")
     val aired: Aired,
@@ -74,13 +75,8 @@ data class Details(
     val titles: List<Title>,
     @SerializedName("trailer")
     val trailer: Trailer,
-    @SerializedName("type")
-    val type: String,
-    @SerializedName("url")
-    val url: String,
-    @SerializedName("year")
-    val year: Int
 )
+
 data class Broadcast(
     @SerializedName("day")
     val day: String,
@@ -91,6 +87,7 @@ data class Broadcast(
     @SerializedName("timezone")
     val timezone: String
 )
+
 data class Aired(
     @SerializedName("from")
     val from: String,
@@ -101,6 +98,7 @@ data class Aired(
     @SerializedName("to")
     val to: String
 )
+
 data class Demographic(
     @SerializedName("mal_id")
     val malId: Int,
@@ -111,6 +109,7 @@ data class Demographic(
     @SerializedName("url")
     val url: String
 )
+
 data class From(
     @SerializedName("day")
     val day: Int,
@@ -119,6 +118,7 @@ data class From(
     @SerializedName("year")
     val year: Int
 )
+
 data class Genre(
     @SerializedName("mal_id")
     val malId: Int,
@@ -129,12 +129,14 @@ data class Genre(
     @SerializedName("url")
     val url: String
 )
+
 data class Images(
     @SerializedName("jpg")
     val jpg: Jpg,
     @SerializedName("webp")
     val webp: Webp
 )
+
 data class ImagesX(
     @SerializedName("image_url")
     val imageUrl: String,
@@ -147,6 +149,7 @@ data class ImagesX(
     @SerializedName("small_image_url")
     val smallImageUrl: String
 )
+
 data class Jpg(
     @SerializedName("image_url")
     val imageUrl: String,
@@ -155,6 +158,7 @@ data class Jpg(
     @SerializedName("small_image_url")
     val smallImageUrl: String
 )
+
 data class Licensor(
     @SerializedName("mal_id")
     val malId: Int,
@@ -176,12 +180,14 @@ data class Producer(
     @SerializedName("url")
     val url: String
 )
+
 data class Prop(
     @SerializedName("from")
     val from: From,
     @SerializedName("to")
     val to: To
 )
+
 data class Studio(
     @SerializedName("mal_id")
     val malId: Int,
@@ -192,12 +198,14 @@ data class Studio(
     @SerializedName("url")
     val url: String
 )
+
 data class Title(
     @SerializedName("title")
     val title: String,
     @SerializedName("type")
     val type: String
 )
+
 data class To(
     @SerializedName("day")
     val day: Int,
@@ -206,16 +214,18 @@ data class To(
     @SerializedName("year")
     val year: Int
 )
+
 data class Trailer(
     @SerializedName("embed_url")
-    val embedUrl: String,
+    val embedUrl: String? = "",
     @SerializedName("images")
     val images: ImagesX,
     @SerializedName("url")
-    val url: String,
+    val url: String? = "",
     @SerializedName("youtube_id")
-    val youtubeId: String
+    val youtubeId: String? = ""
 )
+
 data class Webp(
     @SerializedName("image_url")
     val imageUrl: String,

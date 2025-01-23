@@ -24,8 +24,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -86,10 +90,11 @@ fun AnimeDetailScreen(
                     .fillMaxWidth()
                     .padding(bottom = 8.dp),
                 color = Color.White,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.headlineMedium
             )
             Spacer(modifier = Modifier.height(8.dp))
-            if (anime.trailer.youtubeId.isNotEmpty()) {
+
+            if (anime.trailer.youtubeId.isNullOrEmpty().not()) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -97,7 +102,7 @@ fun AnimeDetailScreen(
                         .padding(bottom = 16.dp)
                 ) {
                     YoutubePlayer(
-                        youtubeVideoId = anime.trailer.youtubeId,
+                        youtubeVideoId = anime.trailer.youtubeId.orEmpty(),
                         lifecycleOwner = LocalLifecycleOwner.current,
                         playerView = playerView.value
                     )
@@ -107,26 +112,47 @@ fun AnimeDetailScreen(
                 AsyncImage(
                     model = anime.images.jpg.imageUrl,
                     contentDescription = "",
-                    modifier = Modifier.fillMaxHeight()
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth(),
+                    contentScale = ContentScale.Crop
                 )
             }
             GenreSection(genres = anime.genres)
             Text(
-                text = "Ratings: ${anime.rating}",
+                text = buildAnnotatedString {
+                    withStyle(style = SpanStyle(color = Color.Red)) {
+                        append("Ratings: ")
+                    }
+                    append(anime.rating)
+                },
                 modifier = Modifier
                     .padding(8.dp),
                 color = Color.White,
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = "Episodes:${anime.episodes}",
+                text = buildAnnotatedString {
+                    withStyle(style = SpanStyle(color = Color.Red)) {
+                        append("Episodes: ")
+                    }
+                    append(anime.episodes.toString())
+                },
                 modifier = Modifier
                     .padding(8.dp),
                 color = Color.White,
                 style = MaterialTheme.typography.bodyMedium
             )
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Synopsis:${anime.synopsis}",
+                "Synopsis:",
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.Red,
+                modifier = Modifier
+                    .padding(8.dp),
+            )
+            Text(
+                text = anime.synopsis,
                 modifier = Modifier
                     .padding(8.dp),
                 color = Color.Gray,
@@ -149,7 +175,7 @@ fun GenreSection(genres: List<Genre>) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Genre",
+            text = "Genre:",
             style = MaterialTheme.typography.bodyLarge,
             color = Color.Red
         )
